@@ -6,6 +6,7 @@ import {
 import { join } from 'path'
 import { AppModule } from './app.module'
 import * as hbs from 'hbs'
+import { ValidationPipe } from '@nestjs/common'
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
@@ -13,6 +14,7 @@ async function bootstrap() {
     new FastifyAdapter({ logger: true }),
   )
 
+  app.useGlobalPipes(new ValidationPipe({ transform: true }))
   app.useStaticAssets({
     root: join(__dirname, '..', 'public'),
     prefix: '/public/',

@@ -1,6 +1,7 @@
-import { Controller, Get, Render, Req, Res } from '@nestjs/common'
+import { Controller, Get, Query, Render, Res } from '@nestjs/common'
 import { PicsService } from './pics.service'
-import { FastifyReply, FastifyRequest } from 'fastify'
+import { FastifyReply } from 'fastify'
+import { PicsValidator } from './pics.validator'
 
 @Controller()
 export class PicsController {
@@ -13,9 +14,9 @@ export class PicsController {
   }
 
   @Get('/api/pics')
-  getPics(@Req() req: FastifyRequest, @Res() res: FastifyReply) {
-    const { page } = req.params as { page: number }
-    const pics = this.service.getPics(page)
+  getPics(@Query() query: PicsValidator, @Res() res: FastifyReply) {
+    const { page } = query
+    const pics = this.service.getPics(Number(page))
 
     res
       .type('application/json')

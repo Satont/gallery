@@ -23,7 +23,7 @@
   const getPics = async () => {
     const request = await fetch(`/api/pics?page=${page}`)
     const { pics } = await request.json()
-
+    console.log(pics.length)
     renderPics(pics)
   }
 
