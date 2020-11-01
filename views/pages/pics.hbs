@@ -4,6 +4,25 @@
   </div>
 </section>
 
+<div class="modal fade" id="imgModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <script>
   let page = 1
   const list = document.getElementById('list')
@@ -12,6 +31,8 @@
     const img = document.createElement('img')
     img.src = src
     img.className = "pic"
+    img.setAttribute('data-toggle', 'modal')
+    img.setAttribute('data-target', '#imgModal')
 
     const div = document.createElement('div');
     ['col-sm-3', 'pb-2'].forEach(c => div.classList.add(c))
@@ -23,7 +44,7 @@
   const getPics = async () => {
     const request = await fetch(`/api/pics?page=${page}`)
     const { pics } = await request.json()
-    console.log(pics.length)
+
     renderPics(pics)
   }
 
@@ -38,5 +59,13 @@
       loading = true
       getPics()
     }
+  })
+
+  $('#imgModal').on('show.bs.modal', (event) => {
+    const img = $.clone($(event.relatedTarget)[0])
+
+    $('.modal-body')
+      .empty()
+      .append(img)
   })
 </script>
