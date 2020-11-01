@@ -1,0 +1,4 @@
+{
+  "watch": ["src", "views"],
+  "exec": "npm run start:dev"
+}

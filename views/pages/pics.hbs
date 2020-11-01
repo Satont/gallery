@@ -1,0 +1,42 @@
+<section class="pics" >
+  <div class="container d-flex h-100 align-items-center">
+    <div class="row" id="list"></div>
+  </div>
+</section>
+
+<script>
+  let page = 1
+  const list = document.getElementById('list')
+
+  const renderPics = (pics) => pics.forEach(src => {
+      const img = document.createElement('img')
+      img.src = src
+      img.className = "pic"
+
+      const div = document.createElement('div')
+      div.className = 'col-sm-3'
+      div.append(img)
+
+      list.append(div)
+    })
+
+  const getPics = async () => {
+    const request = await fetch(`/api/pics?page=${page}`)
+    const { pics } = await request.json()
+
+    renderPics(pics)
+  }
+
+  document.addEventListener('DOMContentLoaded', getPics())
+
+  window.addEventListener('scroll', async () => {
+    const { scrollTop, scrollHeight, clientHeight } = document.documentElement
+    let loading = false
+
+    if (clientHeight + scrollTop >= scrollHeight - 5 && !loading) {
+      page++
+      loading = true
+      getPics()
+    }
+  })
+</script>
