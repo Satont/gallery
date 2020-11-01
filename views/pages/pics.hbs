@@ -50,14 +50,15 @@
 
   document.addEventListener('DOMContentLoaded', getPics())
 
+  let loading = false
   window.addEventListener('scroll', async () => {
     const { scrollTop, scrollHeight, clientHeight } = document.documentElement
-    let loading = false
 
     if (clientHeight + scrollTop >= scrollHeight - 5 && !loading) {
       page++
       loading = true
-      getPics()
+      await getPics()
+      loading = false
     }
   })
 
