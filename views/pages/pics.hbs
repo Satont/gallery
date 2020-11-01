@@ -13,8 +13,8 @@
     img.src = src
     img.className = "pic"
 
-    const div = document.createElement('div')
-    div.className = 'col-sm-3'
+    const div = document.createElement('div');
+    ['col-sm-3', 'pb-2'].forEach(c => div.classList.add(c))
     div.append(img)
 
     list.append(div)
