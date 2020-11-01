@@ -1,6 +1,6 @@
-import { Controller, Get, Render, Res } from '@nestjs/common'
+import { Controller, Get, Render, Req, Res } from '@nestjs/common'
 import { PicsService } from './pics.service'
-import { FastifyReply } from 'fastify'
+import { FastifyReply, FastifyRequest } from 'fastify'
 
 @Controller()
 export class PicsController {
@@ -13,8 +13,12 @@ export class PicsController {
   }
 
   @Get('/api/pics')
-  getPics(@Res() res: FastifyReply) {
-    const pics = this.service.getPics()
-    res.type('application/json').send({ pics })
+  getPics(@Req() req: FastifyRequest, @Res() res: FastifyReply) {
+    const { page } = req.params as { page: number }
+    const pics = this.service.getPics(page)
+
+    res
+      .type('application/json')
+      .send({ pics })
   }
 }
