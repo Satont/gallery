@@ -9,16 +9,16 @@
   const list = document.getElementById('list')
 
   const renderPics = (pics) => pics.forEach(src => {
-      const img = document.createElement('img')
-      img.src = src
-      img.className = "pic"
+    const img = document.createElement('img')
+    img.src = src
+    img.className = "pic"
 
-      const div = document.createElement('div')
-      div.className = 'col-sm-3'
-      div.append(img)
+    const div = document.createElement('div')
+    div.className = 'col-sm-3'
+    div.append(img)
 
-      list.append(div)
-    })
+    list.append(div)
+  })
 
   const getPics = async () => {
     const request = await fetch(`/api/pics?page=${page}`)
