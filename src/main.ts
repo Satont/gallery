@@ -1,5 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config()
+import 'source-map-support/register'
 
 import { NestFactory } from '@nestjs/core'
 import {

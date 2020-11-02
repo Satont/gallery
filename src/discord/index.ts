@@ -83,11 +83,12 @@ client.on('messageReactionAdd', async (reaction, user) => {
   if (user.partial) await reaction.fetch()
   const emoji = reaction.emoji.toString()
   if (emoji !== '✅' && emoji !== '❎') return
-
-  const guild = reaction.message.guild
+  
+  await reaction.message.fetch()
+  const guild = await reaction.message.guild.fetch()
   if (user.id !== guild.owner.id) return
 
-  const channel = reaction.message.channel as TextChannel
+  const channel = await reaction.message.channel.fetch() as TextChannel
   const messageId = reaction.message.id
 
   if (channel.parentID !== mainChannel.parentID) return
