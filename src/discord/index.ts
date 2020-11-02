@@ -71,6 +71,7 @@ const parseMainMessage = async (msg: Message) => {
     const message = await channel.send(embed)
     await message.react('✅')
     await message.react('❎')
+    logger.log(`New request to upload from ${msg.member.displayName}`)
   }
 
   await msg.delete()
@@ -94,14 +95,19 @@ client.on('messageReactionAdd', async (reaction, user) => {
     const image = reaction.message.embeds[0].image
     try {
       await uploadImage(image)
+      logger.log(`Image from channel ${channel.name} uploaded.`)
     } catch (e) {
       logger.error(e)
     }
     await reaction.message.delete()
+    logger.log(`Message deleted.`)
   }
 
   const channelMessages = (await channel.messages.fetch()).filter(m => m.id !== messageId)
-  if (!channelMessages.size) await channel.delete()
+  if (!channelMessages.size) {
+    logger.log(`Channel ${channel.name} uploaded, because there is no more messages.`)
+    await channel.delete()
+  }
 })
 
 
