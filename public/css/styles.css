@@ -4,8 +4,6 @@ body {
 }
 
 #mainNav {
-  padding-top: 0;
-  padding-bottom: 0;
   border-bottom: none;
   background: transparent;
 }
@@ -45,6 +43,13 @@ body {
   color: #64a19d;
   outline: none;
   border-bottom: 0.25rem solid #64a19d;
+}
+
+#mainNav .navbar-toggler {
+  font-size: 80%;
+  padding: 0.75rem;
+  color: #64a19d;
+  border: 1px solid #64a19d;
 }
 
 @media (min-width: 992px) {
