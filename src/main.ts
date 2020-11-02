@@ -1,3 +1,6 @@
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+require('dotenv').config()
+
 import { NestFactory } from '@nestjs/core'
 import {
   FastifyAdapter,
@@ -6,13 +9,21 @@ import {
 import { join } from 'path'
 import { AppModule } from './app.module'
 import * as hbs from 'hbs'
+import { ValidationPipe } from '@nestjs/common'
+import './discord'
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
-    new FastifyAdapter({ logger: true }),
+    new FastifyAdapter({ logger: false }),
+    {
+      cors: {
+        origin: [process.env.NODE_ENV === 'production' ? 'https://gallery.satont.ru' : 'http://localhost:3000'],
+      },
+    }
   )
 
+  app.useGlobalPipes(new ValidationPipe({ transform: true }))
   app.useStaticAssets({
     root: join(__dirname, '..', 'public'),
     prefix: '/public/',
