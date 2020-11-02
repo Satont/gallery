@@ -101,14 +101,15 @@ client.on('messageReactionAdd', async (reaction, user) => {
     })
     await repository.persistAndFlush(file)
     logger.log(`Image from channel ${channel.name} uploaded.`)
-    await reaction.message.delete()
-    logger.log(`Message deleted.`)
   }
 
   const channelMessages = (await channel.messages.fetch()).filter(m => m.id !== messageId)
   if (!channelMessages.size) {
-    logger.log(`Channel ${channel.name} uploaded, because there is no more messages.`)
+    logger.log(`Channel ${channel.name} deleted, because there is no more messages.`)
     await channel.delete()
+  } else {
+    await reaction.message.delete()
+    logger.log(`Message deleted.`)
   }
 })
 
