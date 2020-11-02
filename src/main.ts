@@ -9,7 +9,7 @@ import {
 } from '@nestjs/platform-fastify'
 import { join } from 'path'
 import { AppModule } from './app.module'
-import * as hbs from 'hbs'
+import hbs from 'hbs'
 import { ValidationPipe } from '@nestjs/common'
 import './discord'
 import db, { orm } from './libs/db'
@@ -41,3 +41,5 @@ async function bootstrap() {
   await app.listen(3000, '0.0.0.0')
 }
 bootstrap()
+
+process.on('unhandledRejection', r => console.error(r))
