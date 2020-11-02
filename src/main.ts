@@ -15,6 +15,11 @@ async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
     new FastifyAdapter({ logger: true }),
+    {
+      cors: {
+        origin: [process.env.NODE_ENV === 'production' ? 'https://gallery.satont.ru' : 'http://localhost:3000'],
+      },
+    }
   )
 
   app.useGlobalPipes(new ValidationPipe({ transform: true }))

@@ -74,6 +74,10 @@
   max-height: 300px;
 }
 
+.modal-body img {
+  width: 100%;
+}
+
 .about h1 {
   font-family: "Varela Round", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   line-height: 2.5rem;
