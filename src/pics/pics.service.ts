@@ -1,23 +1,13 @@
 import { Injectable } from '@nestjs/common'
-import axios from 'axios'
+import yandexApi from 'src/modules/yandexApi'
 
 @Injectable()
 export class PicsService {
   private readonly perPage = 50
-  private readonly folder = process.env.YANDEX_DISK_FOLDER ?? `/pics-sharer`
-  private readonly yandexApi = axios.create({
-    baseURL: encodeURI(`https://cloud-api.yandex.net/v1/disk/resources`),
-    headers: {
-      Authorization: `OAuth ${process.env.YANDEX_DISK_TOKEN}`,
-    },
-    params: {
-      path: `disk:/${this.folder}`,
-    },
-  })
-
+  private readonly api = yandexApi
 
   async getPics(page: number): Promise<string[]> {
-    const { data: { _embedded: result } } = await this.yandexApi.get('/', {
+    const { data: { _embedded: result } } = await this.api.get('/', {
       params: {
         sort: 'created',
         fields: [

@@ -1,5 +1,6 @@
 import { Logger } from '@nestjs/common'
 import { Client, Message, MessageEmbed, TextChannel } from 'discord.js'
+import { uploadImage } from 'src/modules/yandexApi'
 
 const logger = new Logger('Discord')
 const client = new Client({
@@ -14,16 +15,19 @@ client.on('ready', () => {
 })
 
 client.on('message', async (msg) => {
+  if (msg.member.user.bot) return
   if (msg.partial) await msg.fetch()
   if (msg.channel.type !== 'text') return
 
   const channel = await msg.channel.fetch() as TextChannel
   if (channel.parentID !== mainChannel.parentID) return
 
-  if (channel.id === mainChannel.id) await parseMainMessage(msg)
+  await parseMainMessage(msg)
 })
 
 const parseMainMessage = async (msg: Message) => {
+  const name = `pics-by-${msg.member.displayName.toLowerCase()}`
+  if ((msg.channel as TextChannel).parentID !== mainChannel.parentID && (msg.channel as TextChannel).name !== name) return
   if (!msg.attachments.size) return await msg.delete()
 
   const attachments = msg.attachments
@@ -44,7 +48,6 @@ const parseMainMessage = async (msg: Message) => {
     embeds.push(embed)
   }
 
-  const name = `pics-by-${msg.member.displayName.toLowerCase()}`
   const existedChannel = mainChannel.parent.children.find(c => c.name === name && c.type === 'text') as TextChannel
 
   const channel = existedChannel || await msg.guild.channels.create(name, {
@@ -54,7 +57,7 @@ const parseMainMessage = async (msg: Message) => {
       {
         type: 'member',
         id: msg.member.id,
-        allow: ['VIEW_CHANNEL', 'SEND_MESSAGES'],
+        allow: ['VIEW_CHANNEL', 'SEND_MESSAGES', 'ADD_REACTIONS'],
       },
       {
         type: 'role',
@@ -65,12 +68,37 @@ const parseMainMessage = async (msg: Message) => {
   })
 
   for (const embed of embeds) {
-    const msg = await channel.send(embed)
-    await msg.react('✅')
-    await msg.react('❎')
+    const message = await channel.send(embed)
+    await message.react('✅')
+    await message.react('❎')
   }
 
   await msg.delete()
 }
+
+client.on('messageReactionAdd', async (reaction, user) => {
+  if (reaction.partial) await reaction.fetch()
+  if (user.partial) await reaction.fetch()
+  const emoji = reaction.emoji.toString()
+  if (emoji !== '✅' && emoji !== '❎') return
+
+  const guild = reaction.message.guild
+  if (user.id !== guild.owner.id) return
+
+  const channel = reaction.message.channel as TextChannel
+  const messageId = reaction.message.id
+
+  if (channel.parentID !== mainChannel.parentID) return
+
+  if (emoji === '✅') {
+    const image = reaction.message.embeds[0].image
+    await uploadImage(image.url)
+    await reaction.message.delete()
+  }
+
+  const channelMessages = (await channel.messages.fetch()).filter(m => m.id !== messageId)
+  if (!channelMessages.size) await channel.delete()
+})
+
 
 client.login(process.env.DISCORD_TOKEN)
