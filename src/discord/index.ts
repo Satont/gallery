@@ -43,7 +43,7 @@ const parseMainMessage = async (msg: Message) => {
         iconURL: msg.member.user.avatarURL(),
       },
       image: {
-        url: attachment.url,
+        url: attachment.proxyURL,
       },
     })
     embeds.push(embed)
@@ -83,7 +83,7 @@ client.on('messageReactionAdd', async (reaction, user) => {
   if (user.partial) await reaction.fetch()
   const emoji = reaction.emoji.toString()
   if (emoji !== '✅' && emoji !== '❎') return
-  
+
   await reaction.message.fetch()
   const guild = await reaction.message.guild.fetch()
   if (user.id !== guild.owner.id) return
