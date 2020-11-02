@@ -1,5 +1,6 @@
 body {
-  background-color: rgb(27, 30, 31) !important;
+  background: rgb(4,44,45);
+  background: radial-gradient(circle, rgba(4,44,45,1) 0%, rgba(9,8,0,1) 100%);
 }
 
 #mainNav {
@@ -57,11 +58,6 @@ body {
   position: relative;
   width: 100%;
   min-height: 35rem;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 75%, #000000 100%), url("../img/home.jpg");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: scroll;
-  background-size: cover;
 }
 
 .about {
