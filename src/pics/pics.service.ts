@@ -11,6 +11,9 @@ export class PicsService {
     const items = await this.repository.find({}, {
       limit: this.perPage,
       offset: this.perPage * (page - 1),
+      orderBy: {
+        createdAt: 'DESC',
+      },
     })
 
     const pics = items.map(i => i.fileUrl)
