@@ -2,7 +2,7 @@ import { Logger } from '@nestjs/common'
 import { Client, Message, MessageEmbed, TextChannel } from 'discord.js'
 import { uploadImage } from 'src/modules/yandexApi'
 
-const logger = new Logger('Discord')
+export const logger = new Logger('Discord')
 const client = new Client({
   partials: ['REACTION', 'MESSAGE'],
 })
@@ -92,7 +92,11 @@ client.on('messageReactionAdd', async (reaction, user) => {
 
   if (emoji === '✅') {
     const image = reaction.message.embeds[0].image
-    await uploadImage(image.url)
+    try {
+      await uploadImage(image)
+    } catch (e) {
+      logger.error(e)
+    }
     await reaction.message.delete()
   }
 

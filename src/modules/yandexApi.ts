@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { MessageEmbedImage } from 'discord.js'
 
 const folder = process.env.YANDEX_DISK_FOLDER ?? `/pics-sharer`
 
@@ -14,10 +15,13 @@ const instance = axios.create({
 
 export default instance
 
-export const uploadImage = async (url: string) => {
+export const uploadImage = async (image: MessageEmbedImage) => {
+  const nameArray = image.proxyURL.split('/')
+  const name = nameArray[nameArray.length - 1]
   await instance.post('/upload', null, {
     params: {
-      url,
+      url: image.proxyURL,
+      path: `disk:/${folder}/${name}`,
     },
-  }).then(r => console.log(r.data))
+  })
 }
