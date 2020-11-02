@@ -10,11 +10,12 @@ import { join } from 'path'
 import { AppModule } from './app.module'
 import * as hbs from 'hbs'
 import { ValidationPipe } from '@nestjs/common'
+import './discord'
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
-    new FastifyAdapter({ logger: true }),
+    new FastifyAdapter({ logger: false }),
     {
       cors: {
         origin: [process.env.NODE_ENV === 'production' ? 'https://gallery.satont.ru' : 'http://localhost:3000'],
