@@ -1,6 +1,7 @@
 import { Logger } from '@nestjs/common'
 import { Client, Message, MessageEmbed, TextChannel } from 'discord.js'
-import { uploadImage } from 'src/modules/yandexApi'
+import { File } from '../entities/File'
+import { orm } from '../libs/db'
 
 export const logger = new Logger('Discord')
 const client = new Client({
@@ -34,7 +35,7 @@ const parseMainMessage = async (msg: Message) => {
   const embeds: MessageEmbed[] = []
   const everyone = msg.guild.roles.cache.find(r => r.name === '@everyone')
 
-  for (const [, attachment] of attachments) {
+  for (const attachment of [...attachments.values()]) {
     const embed = new MessageEmbed({
       description: attachment.name,
       author: {
@@ -90,15 +91,16 @@ client.on('messageReactionAdd', async (reaction, user) => {
   const messageId = reaction.message.id
 
   if (channel.parentID !== mainChannel.parentID) return
+  const repository = orm.em.fork().getRepository(File)
 
   if (emoji === '✅') {
     const image = reaction.message.embeds[0].image
-    try {
-      await uploadImage(image)
-      logger.log(`Image from channel ${channel.name} uploaded.`)
-    } catch (e) {
-      logger.error(e)
-    }
+    const file = repository.assign(new File(), {
+      author: reaction.message.embeds[0].author.name,
+      fileUrl: image.proxyURL,
+    })
+    await repository.persistAndFlush(file)
+    logger.log(`Image from channel ${channel.name} uploaded.`)
     await reaction.message.delete()
     logger.log(`Message deleted.`)
   }

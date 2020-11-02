@@ -11,16 +11,16 @@ import { AppModule } from './app.module'
 import * as hbs from 'hbs'
 import { ValidationPipe } from '@nestjs/common'
 import './discord'
+import db, { orm } from './libs/db'
 
 async function bootstrap() {
+  await db()
+  if (!orm || !orm.isConnected()) {
+    return setTimeout(() => bootstrap(), 1000)
+  }
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
     new FastifyAdapter({ logger: false }),
-    {
-      cors: {
-        origin: [process.env.NODE_ENV === 'production' ? 'https://gallery.satont.ru' : 'http://localhost:3000'],
-      },
-    }
   )
 
   app.useGlobalPipes(new ValidationPipe({ transform: true }))
