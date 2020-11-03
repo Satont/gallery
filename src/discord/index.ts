@@ -40,7 +40,7 @@ const parseMainMessage = async (msg: Message) => {
     const embed = new MessageEmbed({
       description: attachment.name,
       author: {
-        name: msg.member.displayName,
+        name: msg.member.user.tag,
         iconURL: msg.member.user.avatarURL(),
       },
       image: {
