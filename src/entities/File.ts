@@ -11,6 +11,9 @@ export class File {
   fileUrl: string
 
   @Property()
+  name?: string = ''
+
+  @Property()
   author: string
 
   @Property()

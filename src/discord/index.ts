@@ -1,4 +1,5 @@
 import { Logger } from '@nestjs/common'
+import Axios from 'axios'
 import { Client, Message, MessageEmbed, TextChannel } from 'discord.js'
 import { File } from '../entities/File'
 import { orm } from '../libs/db'
@@ -96,10 +97,13 @@ client.on('messageReactionAdd', async (reaction, user) => {
 
   if (emoji === '✅') {
     const image = reaction.message.embeds[0].image
-    const file = repository.assign(new File(), {
+    const uploadedImage = await uploadImage(image.url)
+    const file = repository.create({
+      name: uploadedImage.name,
       author: reaction.message.embeds[0].author.name,
-      fileUrl: image.proxyURL,
+      fileUrl: uploadedImage.url,
     })
+
     await repository.persistAndFlush(file)
     logger.log(`Image from channel ${channel.name} uploaded.`)
   }
@@ -116,3 +120,29 @@ client.on('messageReactionAdd', async (reaction, user) => {
 
 
 client.login(process.env.DISCORD_TOKEN)
+
+const uploadImage = async (source: string): Promise<{
+  name: string,
+  original_filename: string,
+  url: string,
+}> => {
+  const {
+    data: {
+      image: {
+        name,
+        original_filename,
+        url,
+      },
+    },
+  } = await Axios.get(`https://freeimage.host/api/1/upload?source=${encodeURI(source)}`, {
+    params: {
+      key: process.env.FREEIMAGE_KEY,
+    },
+  })
+
+  return {
+    name,
+    original_filename,
+    url,
+  }
+}
