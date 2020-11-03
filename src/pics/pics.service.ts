@@ -7,8 +7,8 @@ export class PicsService {
   private readonly perPage = 50
   private readonly repository = orm.em.fork().getRepository(File)
 
-  async getPics(page: number): Promise<string[]> {
-    const items = await this.repository.find({}, {
+  async getPics(page: number) {
+    const pics = await this.repository.find({}, {
       limit: this.perPage,
       offset: this.perPage * (page - 1),
       orderBy: {
@@ -16,7 +16,6 @@ export class PicsService {
       },
     })
 
-    const pics = items.map(i => i.fileUrl)
     return pics
   }
 }
