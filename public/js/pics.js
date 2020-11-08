@@ -1,5 +1,7 @@
 /* eslint-disable no-undef */
 let page = 1
+// eslint-disable-next-line prefer-const
+let category = 'general'
 const list = document.getElementById('list')
 
 const renderPics = (pics) => pics.forEach(pic => {
@@ -24,7 +26,7 @@ const renderPics = (pics) => pics.forEach(pic => {
 })
 
 const getPics = async () => {
-  const request = await fetch(`/api/pics?page=${page}`)
+  const request = await fetch(`/api/pics?page=${page}&category=${category}`)
   const { pics } = await request.json()
 
   renderPics(pics)
@@ -42,6 +44,23 @@ window.addEventListener('scroll', async () => {
     await getPics()
     loading = false
   }
+})
+
+const getAllTabs = () => document.querySelectorAll('ul.category-selector > li.nav-item > a.nav-link')
+
+getAllTabs().forEach(link => {
+  link.addEventListener('click', () => {
+    const text = link.textContent.toLowerCase()
+    if (category === text) return
+    category = text
+    list.innerHTML = ''
+    link.classList.toggle('active')
+    getPics()
+    getAllTabs().forEach(l => {
+      if (l === link) return
+      l.classList.toggle('active')
+    })
+  })
 })
 
 $('#imgModal').on('show.bs.modal', (event) => {

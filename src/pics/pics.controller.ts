@@ -14,9 +14,12 @@ export class PicsController {
   }
 
   @Get('/api/pics')
-  async getPics(@Query() query: PicsValidator, @Res() res: FastifyReply) {
-    const { page } = query
-    const pics = await this.service.getPics(Number(page))
+  async getPics(
+  @Query() query: PicsValidator,
+    @Res() res: FastifyReply
+  ) {
+    const { page, category } = query
+    const pics = await this.service.getPics({ page: Number(page), category })
 
     res
       .type('application/json')

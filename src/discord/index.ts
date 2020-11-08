@@ -10,6 +10,7 @@ const client = new Client({
 })
 
 let mainChannel: TextChannel = null
+const avaliableEmojis = ['✅', '🔞', '❎'] as const
 
 client.on('ready', () => {
   mainChannel = client.channels.cache.get(process.env.DISCORD_MAIN_CHANNEL_ID) as TextChannel
@@ -71,8 +72,9 @@ const parseMainMessage = async (msg: Message) => {
 
   for (const embed of embeds) {
     const message = await channel.send(embed)
-    await message.react('✅')
-    await message.react('❎')
+    for (const emoji of avaliableEmojis) {
+      await message.react(emoji)
+    }
     logger.log(`New request to upload from ${msg.member.displayName}`)
   }
 
@@ -83,7 +85,7 @@ client.on('messageReactionAdd', async (reaction, user) => {
   if (reaction.partial) await reaction.fetch()
   if (user.partial) await reaction.fetch()
   const emoji = reaction.emoji.toString()
-  if (emoji !== '✅' && emoji !== '❎') return
+  if (!avaliableEmojis.includes(emoji as any)) return
 
   await reaction.message.fetch()
   const guild = await reaction.message.guild.fetch()
@@ -95,13 +97,19 @@ client.on('messageReactionAdd', async (reaction, user) => {
   if (channel.parentID !== mainChannel.parentID) return
   const repository = orm.em.fork().getRepository(File)
 
-  if (emoji === '✅') {
+  let category: string
+  if (emoji === '✅') category = 'general'
+  else if (emoji === '🔞') category = 'nfsw'
+  else category = 'unknown'
+
+  if (emoji !== '❎') {
     const image = reaction.message.embeds[0].image
     const uploadedImage = await uploadImage(image.url)
     const file = repository.create({
       name: uploadedImage.name,
       author: reaction.message.embeds[0].author.name,
       fileUrl: uploadedImage.url,
+      category,
     })
 
     await repository.persistAndFlush(file)
