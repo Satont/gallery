@@ -1,11 +1,15 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import App from './App.vue'
-import 'bootstrap/dist/css/bootstrap.css'
+import { BootstrapVue } from 'bootstrap-vue'
+
 import './css/styles.css'
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 Vue.component('navbar', () => import('./components/navbar.vue'))
 Vue.use(Router)
+Vue.use(BootstrapVue)
 
 const router = new Router({
   mode: 'history',
@@ -13,6 +17,10 @@ const router = new Router({
     {
       path: '/',
       component: () => import('./pages/home.vue'),
+    },
+    {
+      path: '/pics',
+      component: () => import('./pages/pics.vue'),
     },
   ],
 })

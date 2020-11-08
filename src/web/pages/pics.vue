@@ -12,28 +12,33 @@
         </ul>
       </div>
       <div class="container d-flex h-100 align-items-center">
-        <div class="row" id="list"></div>
+        <div v-for="img in list" :key="img.src" class="col-sm-3 pb-2">
+          <img
+            :src="img.fileUrl"
+            class="pic"
+            data-toggle="modal"
+            data-target="#imgModal"
+            :data-id="img.id"
+            :data-name="img.name"
+            :data-createdat="img.createdAt"
+            :data-updatedat="img.updatedAt"
+          />
+        </div>
       </div>
     </section>
 
-    <div class="modal fade" id="imgModal" tabindex="-1" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title"></h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
-          </div>
-        </div>
+    <b-modal id="bv-modal-example" hide-footer>
+      <template #modal-title>
+        {{ selected.name }}
+      </template>
+      <div id="bv-modal-example" class="d-block text-center">
+        <ul>
+          <li>Author: {{ selected.author }}</li>
+          <li>Created: {{ new Date(selected.createdAt).toLocaleString() }}</li>
+        </ul>
       </div>
-    </div>
+      <b-button class="mt-3" block @click="$bvModal.hide('bv-modal-example')">Close Me</b-button>
+    </b-modal>
   </div>
 </template>
 
@@ -41,5 +46,21 @@
 import { Vue, Component } from 'vue-property-decorator'
 
 @Component
-export default class App extends Vue {}
+export default class App extends Vue {
+  page = 1
+  category = 'general'
+  list = []
+  selected = {}
+
+  async mounted() {
+    const request = await fetch(`/api/pics?page=${this.page}&category=${this.category}`)
+    const { pics } = await request.json()
+
+    this.list = pics
+  }
+
+  showModal() {
+
+  }
+}
 </script>

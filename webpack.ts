@@ -91,8 +91,10 @@ export default {
   devServer: {
     compress: true,
     port: 3002,
-    historyApiFallback: true,
     contentBase: './public',
     publicPath: '/dest/',
+    proxy: {
+      '/api': 'http://localhost:3000',
+    },
   },
 }
