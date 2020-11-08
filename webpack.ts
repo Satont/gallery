@@ -91,5 +91,6 @@ export default {
     proxy: {
       '/api': 'http://localhost:3000',
     },
+    historyApiFallback: false,
   },
 }

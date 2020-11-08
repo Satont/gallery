@@ -12,7 +12,6 @@ Vue.use(Router)
 Vue.use(BootstrapVue)
 
 const router = new Router({
-  mode: 'history',
   routes: [
     {
       path: '/',

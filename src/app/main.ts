@@ -11,6 +11,7 @@ import { AppModule } from './app.module'
 import { ValidationPipe } from '@nestjs/common'
 import './discord'
 import db, { orm } from './libs/db'
+import { resolve } from 'path'
 
 async function bootstrap() {
   await db()
@@ -22,6 +23,9 @@ async function bootstrap() {
     new FastifyAdapter({ logger: false }),
   )
 
+  app.useStaticAssets({
+    root: resolve(process.cwd(), 'public'),
+  })
   app.useGlobalPipes(new ValidationPipe({ transform: true }))
 
   await app.listen(3000, '0.0.0.0')

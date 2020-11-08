@@ -2,26 +2,23 @@
   <div>
     <section class="pics" >
       <div class="container mb-3">
-        <ul class="nav category-selector nav-pills nav-fill">
-          <li class="nav-item">
-            <a class="nav-link active" href="#">General</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">NFSW</a>
-          </li>
-        </ul>
+        <b-nav pills fill>
+          <b-nav-item active @click="category = 'general'">General</b-nav-item>
+          <b-nav-item @click="category = 'nfsw'">NFSW</b-nav-item>
+        </b-nav>
       </div>
       <div class="container d-flex h-100 align-items-center">
         <div v-for="img in list" :key="img.src" class="col-sm-3 pb-2">
           <img
             :src="img.fileUrl"
-            class="pic"
+            class="list-pic"
             data-toggle="modal"
             data-target="#imgModal"
             :data-id="img.id"
             :data-name="img.name"
             :data-createdat="img.createdAt"
             :data-updatedat="img.updatedAt"
+            @click="selected = img; $bvModal.show('bv-modal-example')"
           />
         </div>
       </div>
@@ -36,14 +33,15 @@
           <li>Author: {{ selected.author }}</li>
           <li>Created: {{ new Date(selected.createdAt).toLocaleString() }}</li>
         </ul>
+        <img :src="selected.fileUrl" />
       </div>
-      <b-button class="mt-3" block @click="$bvModal.hide('bv-modal-example')">Close Me</b-button>
+      <!-- <b-button class="mt-3" block @click="$bvModal.hide('bv-modal-example')">Close Me</b-button> -->
     </b-modal>
   </div>
 </template>
 
 <script lang='ts'>
-import { Vue, Component } from 'vue-property-decorator'
+import { Vue, Component, Watch } from 'vue-property-decorator'
 
 @Component
 export default class App extends Vue {
@@ -53,14 +51,20 @@ export default class App extends Vue {
   selected = {}
 
   async mounted() {
+    this.getPics()
+  }
+
+  async getPics() {
     const request = await fetch(`/api/pics?page=${this.page}&category=${this.category}`)
     const { pics } = await request.json()
 
     this.list = pics
   }
 
-  showModal() {
-
+  @Watch('category')
+  onCategoryChange(val: string, oldVal: string) {
+    if (val === oldVal) return
+    this.getPics()
   }
 }
 </script>
