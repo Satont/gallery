@@ -20,7 +20,7 @@ export default {
     filename: '[name].[contenthash].js',
     chunkFilename: '[name].[contenthash].js',
     pathinfo: false,
-    publicPath: '/',
+    publicPath: '/dest/',
   },
   performance: { hints: false },
   optimization: {
@@ -93,6 +93,6 @@ export default {
     port: 3002,
     historyApiFallback: true,
     contentBase: './public',
-    publicPath: '/',
+    publicPath: '/dest/',
   },
 }
