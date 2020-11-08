@@ -5,13 +5,12 @@ import { resolve } from 'path'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin'
 import TerserPlugin from 'terser-webpack-plugin'
+import HtmlWebpackHarddiskPlugin from 'html-webpack-harddisk-plugin'
 
 const isDev = () => process.env.NODE_ENV === 'development'
 
 export default {
-  devServer: {
-    historyApiFallback: true,
-  },
+  devtool: 'inline-source-map',
   mode: 'development',
   entry: {
     main: './src/web/index.ts',
@@ -21,6 +20,7 @@ export default {
     filename: '[name].[contenthash].js',
     chunkFilename: '[name].[contenthash].js',
     pathinfo: false,
+    publicPath: '/',
   },
   performance: { hints: false },
   optimization: {
@@ -56,6 +56,10 @@ export default {
           options: { experimentalFileCaching: true, appendTsSuffixTo: [/\.vue$/] },
         },
       },
+      {
+        test: /\.html$/,
+        loader: 'html-loader',
+      },
     ],
   },
   plugins: [
@@ -66,8 +70,12 @@ export default {
       chunkFilename: '[id].[contenthash].css',
     }),
     new HtmlPlugin({
-      filename: '../index.html', template: 'src/web/index.html', chunks: ['main'],
+      filename: '../index.html',
+      template: 'src/web/index.html',
+      chunks: ['main'],
+      alwaysWriteToDisk: true,
     }),
+    new HtmlWebpackHarddiskPlugin(),
   ],
   resolve: {
     extensions: ['.ts', '.js', '.vue'],
@@ -79,5 +87,12 @@ export default {
       '@panel': resolve(__dirname, 'src', 'panel'),
       '@login': resolve(__dirname, 'src', 'login'),
     },
+  },
+  devServer: {
+    compress: true,
+    port: 3002,
+    historyApiFallback: true,
+    contentBase: './public',
+    publicPath: '/',
   },
 }
