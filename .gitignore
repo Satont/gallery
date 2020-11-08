@@ -391,3 +391,5 @@ Temporary Items
 dist
 build
 temp
+public/index.html
+public/dest

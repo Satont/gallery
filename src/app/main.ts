@@ -7,12 +7,11 @@ import {
   FastifyAdapter,
   NestFastifyApplication,
 } from '@nestjs/platform-fastify'
-import { join } from 'path'
 import { AppModule } from './app.module'
-import hbs from 'hbs'
 import { ValidationPipe } from '@nestjs/common'
 import './discord'
 import db, { orm } from './libs/db'
+import { resolve } from 'path'
 
 async function bootstrap() {
   await db()
@@ -24,19 +23,10 @@ async function bootstrap() {
     new FastifyAdapter({ logger: false }),
   )
 
-  app.useGlobalPipes(new ValidationPipe({ transform: true }))
   app.useStaticAssets({
-    root: join(__dirname, '..', 'public'),
-    prefix: '/public/',
+    root: resolve(process.cwd(), 'public'),
   })
-  app.setViewEngine({
-    engine: {
-      handlebars: require('hbs'),
-    },
-    templates: join(__dirname, '..', 'views'),
-    layout: 'layouts/index.hbs',
-  })
-  hbs.registerPartials(join(__dirname, '..', 'views', 'partials'))
+  app.useGlobalPipes(new ValidationPipe({ transform: true }))
 
   await app.listen(3000, '0.0.0.0')
 }
