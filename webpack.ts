@@ -14,7 +14,7 @@ export default {
   },
   mode: 'development',
   entry: {
-    web: './src/web/index.ts',
+    main: './src/web/index.ts',
   },
   output: {
     path: resolve(__dirname, 'public', 'dest'),
