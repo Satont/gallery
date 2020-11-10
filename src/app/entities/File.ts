@@ -2,7 +2,7 @@ import { Entity, Enum, PrimaryKey, Property } from '@mikro-orm/core'
 
 export enum Categories {
   GENERAL = 'general',
-  NFSW = 'nfsw',
+  NSFW = 'nsfw',
   UNKNOWN = 'unknown',
 }
 

@@ -4,7 +4,7 @@
       <div class="container mb-3">
         <b-nav pills fill id="pics-nav">
           <b-nav-item @click="category = 'general'" v-bind:class="[{ active: category === 'general' }]">General</b-nav-item>
-          <b-nav-item @click="category = 'nfsw'" v-bind:class="[{ active: category === 'nfsw' }]">NFSW</b-nav-item>
+          <b-nav-item @click="category = 'nsfw'" v-bind:class="[{ active: category === 'nsfw' }]">NSFW</b-nav-item>
         </b-nav>
       </div>
       <div class="container d-flex h-100 align-items-center">

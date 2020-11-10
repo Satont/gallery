@@ -1,7 +1,7 @@
 import { Logger } from '@nestjs/common'
 import Axios from 'axios'
 import { Client, Message, MessageEmbed, TextChannel } from 'discord.js'
-import { File } from '../entities/File'
+import { Categories, File } from '../entities/File'
 import { orm } from '../libs/db'
 
 export const logger = new Logger('Discord')
@@ -97,10 +97,10 @@ client.on('messageReactionAdd', async (reaction, user) => {
   if (channel.parentID !== mainChannel.parentID) return
   const repository = orm.em.fork().getRepository(File)
 
-  let category: string
-  if (emoji === '✅') category = 'general'
-  else if (emoji === '🔞') category = 'nfsw'
-  else category = 'unknown'
+  let category: Categories
+  if (emoji === '✅') category = Categories.GENERAL
+  else if (emoji === '🔞') category = Categories.NSFW
+  else category = Categories.UNKNOWN
 
   if (emoji !== '❎') {
     const image = reaction.message.embeds[0].image
