@@ -2,6 +2,7 @@
 require('dotenv').config()
 import 'source-map-support/register'
 
+import hbs from 'hbs'
 import { NestFactory } from '@nestjs/core'
 import {
   FastifyAdapter,
@@ -27,6 +28,14 @@ async function bootstrap() {
     root: resolve(process.cwd(), 'public'),
   })
   app.useGlobalPipes(new ValidationPipe({ transform: true }))
+  app.setViewEngine({
+    engine: {
+      handlebars: require('hbs'),
+    },
+    templates: resolve(process.cwd(), 'views'),
+    layout: 'layouts/index.hbs',
+  })
+  hbs.registerPartials(resolve(process.cwd(), 'views', 'partials'))
 
   await app.listen(3000, '0.0.0.0')
 }

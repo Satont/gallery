@@ -19,7 +19,7 @@ export default {
   password: process.env.DB_PASSWORD,
   baseDir: process.cwd(),
   entities: ['./dist/entities/**/*.js'],
-  entitiesTs: ['./src/app/entities/**/*.ts'],
+  entitiesTs: ['./src/entities/**/*.ts'],
   cache: { pretty: true },
   namingStrategy: EntityCaseNamingStrategy,
   pool: {
@@ -36,7 +36,7 @@ export default {
   },
   migrations: {
     tableName: 'migrations',
-    path: './src/app/migrations',
+    path: './src/migrations',
     allOrNothing: false,
     transactional: true,
     dropTables: true,
