@@ -109,3 +109,24 @@ body {
 ul#pics-nav li.active {
   background-color: rgb(0 161 255 / 9%) !important;
 }
+
+.pic-modal {
+  background: #212529 !important;
+  color: #fff;
+}
+
+.pic-modal .modal-header button span {
+  color: #fff0;
+}
+
+.pic-modal .modal-header {
+  border-bottom: 1px solid #36393c !important;
+}
+
+.pic-modal .modal-footer {
+  border-top: 1px solid #36393c !important;
+}
+
+.pic-modal .modal-body ul {
+  margin-bottom: 0;
+}

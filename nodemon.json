@@ -1,4 +1,4 @@
 {
   "watch": ["./src/app"],
-  "exec": "ts-node src/app/main.ts"
+  "exec": "ts-node src/main.ts"
 }
