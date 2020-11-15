@@ -82,9 +82,9 @@ const parseMainMessage = async (msg: Message) => {
 }
 
 client.on('messageReactionAdd', async (reaction, user) => {
-  if (user.bot) return
   if (reaction.partial) await reaction.fetch()
   if (user.partial) await user.fetch()
+  if (user.bot) return
   const emoji = reaction.emoji.toString()
   if (!avaliableEmojis.includes(emoji as any)) return
 
