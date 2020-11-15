@@ -1,4 +1,5 @@
 {
-  "watch": ["./src/app"],
-  "exec": "ts-node src/main.ts"
+  "watch": ["./src", "./views"],
+  "exec": "ts-node src/main.ts",
+  "ext": "ts,hbs"
 }

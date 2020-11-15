@@ -6,7 +6,7 @@ import { orm } from '../libs/db'
 
 export const logger = new Logger('Discord')
 const client = new Client({
-  partials: ['REACTION', 'MESSAGE'],
+  partials: ['REACTION', 'MESSAGE', 'GUILD_MEMBER', 'USER'],
 })
 
 let mainChannel: TextChannel = null
