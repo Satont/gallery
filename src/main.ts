@@ -36,6 +36,7 @@ async function bootstrap() {
     layout: 'layouts/index.hbs',
   })
   hbs.registerPartials(resolve(process.cwd(), 'views', 'partials'))
+  hbs.registerPartial('title', process.env.SITE_TITLE)
 
   await app.listen(3000, '0.0.0.0')
 }

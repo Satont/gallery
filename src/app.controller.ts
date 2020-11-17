@@ -5,6 +5,10 @@ export class IndexController {
   @Get()
   @Render('pages/index.hbs')
   root() {
-    return { title: 'Satont\'s Gallery', description: 'Collection of my pics', buttonText: 'Show list' }
+    return {
+      title: process.env.SITE_TITLE,
+      description: process.env.SITE_DESCRIPTION,
+      buttonText: 'Show list',
+    }
   }
 }
