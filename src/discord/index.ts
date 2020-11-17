@@ -18,9 +18,10 @@ client.on('ready', () => {
 })
 
 client.on('message', async (msg) => {
-  if (msg.member.user.bot) return
   if (msg.partial) await msg.fetch()
   if (msg.channel.type !== 'text') return
+  if (msg.member.partial) await msg.member.fetch()
+  if (msg.member.user.bot) return
 
   const channel = await msg.channel.fetch() as TextChannel
   if (channel.parentID !== mainChannel.parentID) return
