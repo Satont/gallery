@@ -79,6 +79,7 @@ new class Tabs {
       link.addEventListener('click', async () => {
         const text = link.textContent.toLowerCase()
         if (pics.category === text) return
+        pics.page = 1
         pics.category = text
         list.innerHTML = ''
         link.classList.toggle('active')
