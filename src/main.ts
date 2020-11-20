@@ -4,10 +4,7 @@ import 'source-map-support/register'
 
 import hbs from 'hbs'
 import { NestFactory } from '@nestjs/core'
-import {
-  FastifyAdapter,
-  NestFastifyApplication,
-} from '@nestjs/platform-fastify'
+import { NestExpressApplication } from '@nestjs/platform-express'
 import { AppModule } from './web/app.module'
 import { ValidationPipe } from '@nestjs/common'
 import './discord'
@@ -19,22 +16,18 @@ async function bootstrap() {
   if (!orm || !orm.isConnected()) {
     return setTimeout(() => bootstrap(), 1000)
   }
-  const app = await NestFactory.create<NestFastifyApplication>(
-    AppModule,
-    new FastifyAdapter({ logger: false }),
-  )
+  const app = await NestFactory.create<NestExpressApplication>(AppModule)
 
-  app.useStaticAssets({
-    root: resolve(process.cwd(), 'public'),
-  })
+  app.useStaticAssets(resolve(process.cwd(), 'public'))
   app.useGlobalPipes(new ValidationPipe({ transform: true }))
-  app.setViewEngine({
-    engine: {
-      handlebars: require('hbs'),
-    },
+
+  app.set('view engine', 'hbs')
+  app.set('views', resolve(process.cwd(), 'views'))
+  app.set('view options', {
+    layout: 'layouts/index',
     templates: resolve(process.cwd(), 'views'),
-    layout: 'layouts/index.hbs',
   })
+
   hbs.registerPartials(resolve(process.cwd(), 'views', 'partials'))
   hbs.registerPartial('title', process.env.SITE_TITLE)
 
