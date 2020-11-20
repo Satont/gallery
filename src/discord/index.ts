@@ -104,19 +104,42 @@ client.on('messageReactionAdd', async (reaction, user) => {
   else if (emoji === '🔞') category = Categories.NSFW
   else category = Categories.UNKNOWN
 
+  const image = reaction.message.embeds[0].image
+  const authorId = reaction.message.embeds[0].author.name.split(' | ')[1]
+  const author = await client.users.fetch(authorId)
+
+  const embed = new MessageEmbed({
+    image: {
+      url: image.url,
+    },
+  })
+
   if (emoji !== '❎') {
-    const image = reaction.message.embeds[0].image
     const uploadedImage = await uploadImage(image.url)
 
     const file = repository.create({
       name: uploadedImage.name,
-      author: reaction.message.embeds[0].author.name.split(' | ')[1],
+      author: authorId,
       fileUrl: uploadedImage.url,
       category,
     })
 
     await repository.persistAndFlush(file)
     logger.log(`Image from channel ${channel.name} uploaded.`)
+
+    await author.send(`Hey, ${author}, your image was accepted.`, {
+      embed: new MessageEmbed({
+        ...embed,
+        color: 3967818,
+      }),
+    })
+  } else {
+    await author.send(`${author}, sorry, but your image was rejected. :(`, {
+      embed: new MessageEmbed({
+        ...embed,
+        color: 13238321,
+      }),
+    })
   }
 
   const channelMessages = (await channel.messages.fetch()).filter(m => m.id !== messageId)
