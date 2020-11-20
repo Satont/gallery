@@ -14,7 +14,14 @@ export class File {
   id: number
 
   @Property()
-  fileUrl: string
+  fileUrl!: string
+
+  @Property({ persist: false })
+  get thumbnailUrl() {
+    const array = this.fileUrl.split('.')
+    const extension = array.pop()
+    return `${array.join('.')}.th.${extension}`
+  }
 
   @Property()
   name?: string = ''

@@ -107,6 +107,7 @@ client.on('messageReactionAdd', async (reaction, user) => {
   if (emoji !== '❎') {
     const image = reaction.message.embeds[0].image
     const uploadedImage = await uploadImage(image.url)
+
     const file = repository.create({
       name: uploadedImage.name,
       author: reaction.message.embeds[0].author.name,
@@ -135,6 +136,7 @@ const uploadImage = async (source: string): Promise<{
   name: string,
   original_filename: string,
   url: string,
+  thumnailUrl: string,
 }> => {
   const {
     data: {
@@ -142,6 +144,9 @@ const uploadImage = async (source: string): Promise<{
         name,
         original_filename,
         url,
+        thumb: {
+          url: thumnailUrl,
+        },
       },
     },
   } = await Axios.get(`https://freeimage.host/api/1/upload?source=${encodeURI(source)}`, {
@@ -154,5 +159,6 @@ const uploadImage = async (source: string): Promise<{
     name,
     original_filename,
     url,
+    thumnailUrl,
   }
 }

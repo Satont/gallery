@@ -41,13 +41,13 @@ const pics = new class Pics {
   render(pics) {
     for (const pic of pics) {
       const img = document.createElement('img')
-      img.src = pic.fileUrl
+      img.src = pic.thumbnailUrl
       img.className = 'list-pic'
       img.setAttribute('data-toggle', 'modal')
       img.setAttribute('data-target', '#imgModal')
 
       const entries = Object.entries(pic)
-        .filter(([key]) => !['fileUrl'].includes(key))
+        .filter(([key]) => !['thumbnailUrl'].includes(key))
 
       for (const [key, value] of entries) {
         img.setAttribute(`data-${key}`, value)
@@ -99,6 +99,7 @@ $('#imgModal').on('show.bs.modal', (event) => {
   const img = $.clone($(event.relatedTarget)[0])
   img.removeAttribute('class')
   img.classList.add('pic-modal')
+  img.setAttribute('src', img.dataset.fileurl)
 
   const list = document.createElement('ul')
 
