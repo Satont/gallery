@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
-import { File } from '../entities/File'
-import { orm } from '../libs/db'
+import { File } from '../../entities/File'
+import { orm } from '../../libs/db'
 
 @Injectable()
 export class PicsService {

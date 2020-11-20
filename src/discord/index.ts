@@ -5,7 +5,7 @@ import { Categories, File } from '../entities/File'
 import { orm } from '../libs/db'
 
 export const logger = new Logger('Discord')
-const client = new Client({
+export const client = new Client({
   partials: ['REACTION', 'MESSAGE', 'GUILD_MEMBER', 'USER'],
 })
 
@@ -42,7 +42,7 @@ const parseMainMessage = async (msg: Message) => {
     const embed = new MessageEmbed({
       description: attachment.name,
       author: {
-        name: msg.member.user.tag,
+        name: `${msg.member.user.tag} | ${msg.member.user.id}`,
         iconURL: msg.member.user.avatarURL(),
       },
       image: {
@@ -110,7 +110,7 @@ client.on('messageReactionAdd', async (reaction, user) => {
 
     const file = repository.create({
       name: uploadedImage.name,
-      author: reaction.message.embeds[0].author.name,
+      author: reaction.message.embeds[0].author.name.split(' | ')[1],
       fileUrl: uploadedImage.url,
       category,
     })

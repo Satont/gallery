@@ -8,7 +8,7 @@ import {
   FastifyAdapter,
   NestFastifyApplication,
 } from '@nestjs/platform-fastify'
-import { AppModule } from './app.module'
+import { AppModule } from './web/app.module'
 import { ValidationPipe } from '@nestjs/common'
 import './discord'
 import db, { orm } from './libs/db'

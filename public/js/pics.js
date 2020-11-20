@@ -94,8 +94,11 @@ new class Tabs {
   }
 }
 
+const getDiscordUser = async (userId) => {
+  return (await fetch(`/api/discord/users/${userId}`)).json()
+}
 
-$('#imgModal').on('show.bs.modal', (event) => {
+$('#imgModal').on('show.bs.modal', async (event) => {
   const img = $.clone($(event.relatedTarget)[0])
   img.removeAttribute('class')
   img.classList.add('pic-modal')
@@ -106,8 +109,9 @@ $('#imgModal').on('show.bs.modal', (event) => {
   const id = document.createElement('li')
   id.appendChild(document.createTextNode(`Id: ${img.dataset.id}`))
 
+  const discordUser = await getDiscordUser(img.dataset.author)
   const author = document.createElement('li')
-  author.appendChild(document.createTextNode(`Author: ${img.dataset.author}`))
+  author.appendChild(document.createTextNode(`Author: ${discordUser.tag}`))
 
   const createdAt = document.createElement('li')
   createdAt.appendChild(document.createTextNode(`Posted: ${new Date(img.dataset.createdat).toLocaleString()}`))
