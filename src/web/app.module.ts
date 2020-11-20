@@ -3,7 +3,7 @@ import { PicsController } from './pics/pics.controller'
 import { PicsService } from './pics/pics.service'
 import { IndexController } from './app.controller'
 import { DiscordController } from './discord/discord.controller'
-import { DiscordService } from './discord/discord.service';
+import { DiscordService } from './discord/discord.service'
 
 @Module({
   imports: [],
