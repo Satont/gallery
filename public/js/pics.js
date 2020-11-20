@@ -98,6 +98,7 @@ new class Tabs {
 $('#imgModal').on('show.bs.modal', (event) => {
   const img = $.clone($(event.relatedTarget)[0])
   img.removeAttribute('class')
+  img.classList.add('pic-modal')
 
   const list = document.createElement('ul')
 
@@ -115,6 +116,7 @@ $('#imgModal').on('show.bs.modal', (event) => {
   $('.modal-body')
     .empty()
     .append(list)
+    .append(img)
 
   $('.modal-title')
     .empty()
