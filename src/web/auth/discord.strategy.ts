@@ -7,9 +7,9 @@ import { AuthService } from './auth.service'
 import { Strategy } from 'passport-oauth2'
 import { stringify } from 'querystring'
 
-const clientID = '541362524814311464'
-const clientSecret = 'ava3OhpZc-lXt0Yo5QjibL1hkD6wmcu7'
-const callbackURL = 'http://localhost:3000/auth/discord'
+const clientID = process.env.DISCORD_CLIENTID
+const clientSecret = process.env.DISCORD_CLIENT_SECRET
+const callbackURL = process.env.DISCORD_CALLBACKURL
 const scope = 'identify'
 
 @Injectable()

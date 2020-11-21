@@ -147,3 +147,10 @@ ul#pics-nav li.active {
   text-decoration: none !important;
   color: rgba(255, 255, 255, 0.5) !important;
 }
+
+.user-profile .avatar {
+  padding: .25rem;
+  border-radius: 99px;
+  max-width: 100%;
+  height: auto;
+}
