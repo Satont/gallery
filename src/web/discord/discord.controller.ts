@@ -1,4 +1,4 @@
-import { Controller, Get, Inject, Param } from '@nestjs/common'
+import { Controller, Get, Param } from '@nestjs/common'
 import { DiscordService } from './discord.service'
 
 @Controller('/api/discord')

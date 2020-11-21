@@ -40,22 +40,17 @@ const pics = new class Pics {
 
   render(pics) {
     for (const pic of pics) {
+      const link = document.createElement('a')
+      link.href = `/pics/${pic.id}`
+
       const img = document.createElement('img')
       img.src = pic.thumbnailUrl
       img.className = 'list-pic'
-      img.setAttribute('data-toggle', 'modal')
-      img.setAttribute('data-target', '#imgModal')
-
-      const entries = Object.entries(pic)
-        .filter(([key]) => !['thumbnailUrl'].includes(key))
-
-      for (const [key, value] of entries) {
-        img.setAttribute(`data-${key}`, value)
-      }
+      link.append(img)
 
       const div = document.createElement('div');
       ['col-sm-3', 'pb-2'].forEach(c => div.classList.add(c))
-      div.append(img)
+      div.append(link)
 
       list.append(div)
     }
@@ -93,37 +88,3 @@ new class Tabs {
     }
   }
 }
-
-const getDiscordUser = async (userId) => {
-  return (await fetch(`/api/discord/users/${userId}`)).json()
-}
-
-$('#imgModal').on('show.bs.modal', async (event) => {
-  const img = $.clone($(event.relatedTarget)[0])
-  img.removeAttribute('class')
-  img.classList.add('pic-modal')
-  img.setAttribute('src', img.dataset.fileurl)
-
-  const list = document.createElement('ul')
-
-  const id = document.createElement('li')
-  id.appendChild(document.createTextNode(`Id: ${img.dataset.id}`))
-
-  const discordUser = await getDiscordUser(img.dataset.author)
-  const author = document.createElement('li')
-  author.appendChild(document.createTextNode(`Author: ${discordUser.tag}`))
-
-  const createdAt = document.createElement('li')
-  createdAt.appendChild(document.createTextNode(`Posted: ${new Date(img.dataset.createdat).toLocaleString()}`))
-
-  list.append(id, author, createdAt)
-
-  $('.modal-body')
-    .empty()
-    .append(list)
-    .append(img)
-
-  $('.modal-title')
-    .empty()
-    .text(img.dataset.name)
-})

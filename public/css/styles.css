@@ -130,3 +130,16 @@ ul#pics-nav li.active {
 .pic-modal .modal-body ul {
   margin-bottom: 0;
 }
+
+.pic-page {
+  padding: 6rem 0;
+}
+
+.pic-page ul {
+  list-style-type: none;
+}
+
+.pic-page ul > li {
+  color: rgba(255,255,255,.5) !important;
+}
+

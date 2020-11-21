@@ -1,0 +1,10 @@
+<section class="container h-100 mb-3 pic-page">
+  <ul>
+    <li>ID: {{ id }}</li>
+    <li>Author: <a href="https://discord.com/users/{{ author.id }}" target="_blank">{{ author.tag }}</a></li>
+    <li>Posted: {{ createdAt }}</li>
+  </ul>
+  <div class="text-center">
+    <img src="{{ fileUrl }}" />
+  </div>
+</section>
