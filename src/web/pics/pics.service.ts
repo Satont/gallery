@@ -7,7 +7,7 @@ export class PicsService {
   private readonly perPage = 50
   private readonly repository = orm.em.fork().getRepository(File)
 
-  async getPics({ page, category }: { page: number, category: string }) {
+  async getByPage({ page, category }: { page: number, category: string }) {
     const pics = await this.repository.find({
       category,
     }, {
@@ -19,5 +19,9 @@ export class PicsService {
     })
 
     return pics
+  }
+
+  async findOne(id: number) {
+    return await this.repository.findOne({ id })
   }
 }
