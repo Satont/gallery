@@ -59,8 +59,8 @@ Also do not forget fill `.env` file in the same directory where you store `docke
 
 #### Prerequirements
 
- - `ESLint` installed in your IDE
- - `EditorConfig` installed in your IDE
+ - `ESLint` plugin installed in your IDE
+ - `EditorConfig` plugin installed in your IDE
  - `Postgres` >= 11.5
  - `Node.js` >= 12
 
