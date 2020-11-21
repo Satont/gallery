@@ -66,3 +66,24 @@ Also do not forget fill `.env` file in the same directory where you store `docke
 
 
  Simply, that's enough for starting development of project.
+
+#### Migrations
+
+Migrations are launched on each application start.
+
+If you did changes in `entities`, then you need create migrations for that, you can do it via command:
+
+```
+npm run migration:create
+```
+
+
+#### Tricks
+
+You can run application in watch mode via command:
+
+```bash
+npm run dev
+```
+
+Each time you will do changes in `src`, `views` directories, then application will be automatically restarted.
