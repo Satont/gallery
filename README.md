@@ -31,6 +31,14 @@ npm run build
 
 As next step you need to fill out `.env`. Example can be found in `.env.example`. So, you simply doing copy of that file and past your data.
 
+Now you are ready to start application.
+
+You can run it from [pm2](https://www.npmjs.com/package/pm2) daemon via command:
+
+```bash
+pm2 start dest/main.js --name gallery
+```
+
 #### Docker compose example:
 ```yml
 version: "3.2"
