@@ -153,7 +153,7 @@ client.on('messageReactionAdd', async (reaction, user) => {
 })
 
 
-client.login(process.env.DISCORD_TOKEN)
+client.login(process.env.DISCORD_BOT_TOKEN)
 
 const uploadImage = async (source: string): Promise<{
   name: string,

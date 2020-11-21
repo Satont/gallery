@@ -39,6 +39,8 @@ You can run it from [pm2](https://www.npmjs.com/package/pm2) daemon via command:
 pm2 start dest/main.js --name gallery
 ```
 
+#### Environment variables
+
 #### Docker compose example:
 ```yml
 version: "3.2"
