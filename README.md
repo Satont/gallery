@@ -1,11 +1,11 @@
-# Gallery (pics-sharer)
+# Gallery
 
 ![](https://img.shields.io/github/workflow/status/satont/gallery/Publish%20Docker/master?label=docker&style=for-the-badge)
 
 ---
 # Description
 
-Personally, i getting tired saving pictures to PC from my friends. So, i get simple idea, how i can store and share images from my friends/me.
+Personally, I'm tired of saving pictures from my friends to my PC. So, I get a simple idea how I can store and share images from my friends and/or me.
 
 #### How it works?
 
