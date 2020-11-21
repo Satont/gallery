@@ -9,6 +9,15 @@
         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="/pics">Pics</a></li>
         <li class="nav-item"><a class="nav-link js-scroll-trigger" target="_blank" href="https://github.com/Satont/gallery">GitHub</a></li>
       </ul>
+        {{#if user}}
+          <span class="navbar-text user-profile">
+            {{ user.tag }}
+          </span>
+          {{else}}
+          <span class="navbar-text login-link">
+            <a class="nav-link js-scroll-trigger" href="/auth/discord">Login</a>
+          </span>
+        {{/if}}
     </div>
   </div>
 </nav>
