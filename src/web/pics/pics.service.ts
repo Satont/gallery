@@ -1,11 +1,16 @@
 import { Injectable } from '@nestjs/common'
 import { File } from '../../entities/File'
 import { orm } from '../../libs/db'
+import { DiscordService } from '../discord/discord.service'
 
 @Injectable()
 export class PicsService {
   private readonly perPage = 50
   private readonly repository = orm.em.fork().getRepository(File)
+
+  constructor(
+    private readonly discordService: DiscordService
+  ){}
 
   async getByPage({ page, category }: { page: number, category: string }) {
     const pics = await this.repository.find({
@@ -22,6 +27,11 @@ export class PicsService {
   }
 
   async findOne(id: number) {
-    return await this.repository.findOne({ id })
+    const instance = await this.repository.findOne({ id })
+    return {
+      ...instance,
+      author: await this.discordService.getUser(instance.author),
+      createdAt: new Date(instance.createdAt).toLocaleString('ru'),
+    }
   }
 }
