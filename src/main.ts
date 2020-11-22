@@ -10,6 +10,9 @@ import { ValidationPipe } from '@nestjs/common'
 import './discord'
 import db, { orm } from './libs/db'
 import { resolve } from 'path'
+import session from 'express-session'
+import passport from 'passport'
+import ReqUserLocals from './web/auth/auth.middleware'
 
 async function bootstrap() {
   await db()
@@ -30,6 +33,16 @@ async function bootstrap() {
 
   hbs.registerPartials(resolve(process.cwd(), 'views', 'partials'))
   hbs.registerPartial('title', process.env.SITE_TITLE)
+
+  app.use(session({
+    secret: Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15),
+    resave: false,
+    saveUninitialized: false,
+  }))
+
+  app.use(passport.initialize())
+  app.use(passport.session())
+  app.use(ReqUserLocals)
 
   await app.listen(3000, '0.0.0.0')
 }

@@ -9,6 +9,22 @@
         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="/pics">Pics</a></li>
         <li class="nav-item"><a class="nav-link js-scroll-trigger" target="_blank" href="https://github.com/Satont/gallery">GitHub</a></li>
       </ul>
+        {{#if user}}
+          <div class="dropdown user-profile">
+            <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="openUserProfile">
+              {{ user.tag }}
+            </a>
+            <div class="dropdown-menu">
+              <img src="{{ user.avatarURL }}" alt="..." class="avatar mx-auto d-block">
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="/auth/logout">Sign out</a>
+            </div>
+          </div>
+          {{else}}
+          <div class="navbar-text login-link">
+            <a class="nav-link js-scroll-trigger" href="/auth/discord">Login</a>
+          </div>
+        {{/if}}
     </div>
   </div>
 </nav>
