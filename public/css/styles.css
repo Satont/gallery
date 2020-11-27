@@ -149,3 +149,11 @@ ul#pics-nav li.active {
   max-width: 100%;
   height: auto;
 }
+
+.table-image td, th {
+  vertical-align: middle;
+}
+
+.table-image {
+  color: rgba(255,255,255,.5)!important;
+}

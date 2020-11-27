@@ -12,9 +12,10 @@ export class PicsService {
     private readonly discordService: DiscordService
   ){}
 
-  async getByPage({ page, category }: { page: number, category: string }) {
+  async getByPage({ page, category, status }: { page: number, category: string, status: string }) {
     const pics = await this.repository.find({
       category,
+      status,
     }, {
       limit: this.perPage,
       offset: this.perPage * (page - 1),
@@ -33,5 +34,9 @@ export class PicsService {
       author: await this.discordService.getUser(instance.author),
       createdAt: new Date(instance.createdAt).toLocaleString('ru'),
     }
+  }
+
+  async getUserPics(userId: string) {
+    return await this.repository.find({ author: userId })
   }
 }

@@ -2,7 +2,6 @@
 require('dotenv').config()
 import 'source-map-support/register'
 
-import hbs from 'hbs'
 import { NestFactory } from '@nestjs/core'
 import { NestExpressApplication } from '@nestjs/platform-express'
 import { AppModule } from './web/app.module'
@@ -13,13 +12,16 @@ import { resolve } from 'path'
 import session from 'express-session'
 import passport from 'passport'
 import ReqUserLocals from './web/auth/auth.middleware'
+import './web/commons/handlebars'
 
 async function bootstrap() {
   await db()
   if (!orm || !orm.isConnected()) {
     return setTimeout(() => bootstrap(), 1000)
   }
-  const app = await NestFactory.create<NestExpressApplication>(AppModule)
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+    logger: ['error', 'warn', 'log'],
+  })
 
   app.useStaticAssets(resolve(process.cwd(), 'public'))
   app.useGlobalPipes(new ValidationPipe({ transform: true }))
@@ -30,9 +32,6 @@ async function bootstrap() {
     layout: 'layouts/index',
     templates: resolve(process.cwd(), 'views'),
   })
-
-  hbs.registerPartials(resolve(process.cwd(), 'views', 'partials'))
-  hbs.registerPartial('title', process.env.SITE_TITLE)
 
   app.use(session({
     secret: Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15),

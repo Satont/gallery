@@ -7,9 +7,10 @@ import { DiscordService } from './discord/discord.service'
 import { AuthModule } from './auth/auth.module'
 import { UsersService } from './users/users.service'
 import { UsersModule } from './users/users.module'
+import { ModerationModule } from './moderation/moderation.module'
 
 @Module({
-  imports: [AuthModule, UsersModule],
+  imports: [AuthModule, UsersModule, ModerationModule],
   controllers: [PicsController, IndexController, DiscordController],
   providers: [PicsService, DiscordService, UsersService],
 })

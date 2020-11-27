@@ -1,5 +1,6 @@
-import { Controller, Get, Query, Res, Render, Param, NotFoundException } from '@nestjs/common'
-import { Response } from 'express'
+import { Controller, Get, Query, Res, Render, Param, NotFoundException, UseGuards, Req } from '@nestjs/common'
+import { Request, Response } from 'express'
+import { AuthenticatedGuard } from '../auth/authenticated.guard'
 import { PicsService } from './pics.service'
 import { PicsValidator } from './pics.validator'
 
@@ -26,11 +27,18 @@ export class PicsController {
   @Query() query: PicsValidator,
     @Res() res: Response
   ) {
-    const { page, category } = query
-    const pics = await this.service.getByPage({ page: Number(page), category })
+    const { page } = query
+    const pics = await this.service.getByPage({ page: Number(page), ...query })
 
     res
       .type('application/json')
       .send({ pics })
+  }
+
+  @Get('/api/pics/my')
+  @UseGuards(AuthenticatedGuard)
+  async getMyPics(@Req() req: Request) {
+    const pics = await this.service.getUserPics(req.user.id)
+    return pics
   }
 }

@@ -6,6 +6,12 @@ export enum Categories {
   UNKNOWN = 'unknown',
 }
 
+export enum Status {
+  WAITING = 'waiting',
+  APPROVED = 'approved',
+  DECLINED = 'declined'
+}
+
 @Entity({
   tableName: 'files',
 })
@@ -37,4 +43,7 @@ export class File {
 
   @Enum({ items: () => Categories, default: Categories.GENERAL })
   category? = Categories.GENERAL
+
+  @Enum({ items: () => Status, default: Status.WAITING })
+  status = Status.WAITING
 }

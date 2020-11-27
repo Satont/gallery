@@ -32,7 +32,7 @@ const pics = new class Pics {
   }
 
   async getList() {
-    const request = await fetch(`/api/pics?page=${this.page}&category=${this.category}`)
+    const request = await fetch(`/api/pics?page=${this.page}&category=${this.category}&status=approved`)
     const { pics } = await request.json()
 
     return pics
