@@ -23,7 +23,6 @@
 
             <label for="category{{ instance.id }}">Category</label>
             <select name="category" id="category{{ instance.id }}" class="form-control">
-              <option value="null" selected>Select category</option>
               {{#each ../categories}}
                 <option value="{{this}}">{{this}}</option>
               {{/each}}
